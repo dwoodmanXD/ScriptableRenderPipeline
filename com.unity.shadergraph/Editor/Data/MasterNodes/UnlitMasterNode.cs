@@ -12,7 +12,7 @@ namespace UnityEditor.ShaderGraph
 {
     [Serializable]
     [Title("Master", "Unlit")]
-    class UnlitMasterNode : MasterNode<IUnlitSubShader>, IMayRequirePosition, IMayRequireNormal, IMayRequireTangent
+    class UnlitMasterNode : MasterNode<IUnlitSubShader>, ICanChangeShaderGUI, IMayRequirePosition, IMayRequireNormal, IMayRequireTangent
     {
         public const string ColorSlotName = "Color";
         public const string AlphaSlotName = "Alpha";
@@ -88,6 +88,36 @@ namespace UnityEditor.ShaderGraph
                 m_AddPrecomputedVelocity = value.isOn;
                 Dirty(ModificationScope.Graph);
             }
+        }
+
+        [SerializeField]
+        bool m_DOTSInstancing = false;
+
+        public ToggleData dotsInstancing
+        {
+            get { return new ToggleData(m_DOTSInstancing); }
+            set
+            {
+                if (m_DOTSInstancing == value.isOn)
+                    return;
+
+                m_DOTSInstancing = value.isOn;
+                Dirty(ModificationScope.Graph);
+            }
+        }
+
+        [SerializeField] private string m_ShaderGUIOverride;
+        public string ShaderGUIOverride
+        {
+            get => m_ShaderGUIOverride;
+            set => m_ShaderGUIOverride = value;
+        }
+
+        [SerializeField] private bool m_OverrideEnabled;
+        public bool OverrideEnabled
+        {
+            get => m_OverrideEnabled;
+            set => m_OverrideEnabled = value;
         }
 
         public UnlitMasterNode()

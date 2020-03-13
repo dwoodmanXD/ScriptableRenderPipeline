@@ -140,6 +140,17 @@ namespace UnityEditor.ShaderGraph
                         finalShader.AppendLines(subShader.GetSubshader(this, mode, sourceAssetDependencyPaths));
                 }
 
+                // Either grab the pipeline default for the active node or the user override
+                if (this is ICanChangeShaderGUI canChangeShaderGui)
+                {
+                    string customEditor = GenerationUtils.FinalCustomEditorString(canChangeShaderGui);
+
+                    if (customEditor != null)
+                    {
+                        finalShader.AppendLine("CustomEditor \"" + customEditor + "\"");
+                    }
+                }
+
                 finalShader.AppendLine(@"FallBack ""Hidden/Shader Graph/FallbackError""");
             }
             configuredTextures = shaderProperties.GetConfiguredTexutres();

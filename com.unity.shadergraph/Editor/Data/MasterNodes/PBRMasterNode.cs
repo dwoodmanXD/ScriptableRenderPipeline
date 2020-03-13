@@ -12,7 +12,7 @@ namespace UnityEditor.ShaderGraph
 {
     [Serializable]
     [Title("Master", "PBR")]
-    class PBRMasterNode : MasterNode<IPBRSubShader>, IMayRequirePosition, IMayRequireNormal, IMayRequireTangent
+    class PBRMasterNode : MasterNode<IPBRSubShader>, ICanChangeShaderGUI, IMayRequirePosition, IMayRequireNormal, IMayRequireTangent
     {
         public const string AlbedoSlotName = "Albedo";
         public const string NormalSlotName = "Normal";
@@ -128,6 +128,20 @@ namespace UnityEditor.ShaderGraph
             }
         }
         bool updateNormalSlot;
+
+        [SerializeField] private string m_ShaderGUIOverride;
+        public string ShaderGUIOverride
+        {
+            get => m_ShaderGUIOverride;
+            set => m_ShaderGUIOverride = value;
+        }
+
+        [SerializeField] private bool m_OverrideEnabled;
+        public bool OverrideEnabled
+        {
+            get => m_OverrideEnabled;
+            set => m_OverrideEnabled = value;
+        }
 
         public PBRMasterNode()
         {
