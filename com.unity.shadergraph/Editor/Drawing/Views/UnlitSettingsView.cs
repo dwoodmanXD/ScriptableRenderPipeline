@@ -12,9 +12,9 @@ namespace UnityEditor.ShaderGraph.Drawing
     class UnlitSettingsView :  MasterNodeSettingsView
     {
         UnlitMasterNode m_Node;
-        public UnlitSettingsView(AbstractMaterialNode node) : base(node)
+        public UnlitSettingsView(UnlitMasterNode node) : base(node)
         {
-            m_Node = node as UnlitMasterNode;
+            m_Node = node;
 
             PropertySheet ps = new PropertySheet();
 

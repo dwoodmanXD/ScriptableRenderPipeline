@@ -13,9 +13,9 @@ namespace UnityEditor.ShaderGraph.Drawing
     class PBRSettingsView : MasterNodeSettingsView
     {
         PBRMasterNode m_Node;
-        public PBRSettingsView(AbstractMaterialNode node) : base(node)
+        public PBRSettingsView(PBRMasterNode node) : base(node)
         {
-            m_Node = node as PBRMasterNode;
+            m_Node = node;
 
             PropertySheet ps = new PropertySheet();
 
