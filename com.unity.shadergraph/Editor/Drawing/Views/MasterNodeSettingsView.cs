@@ -1,19 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor.Graphing;
 using UnityEngine;
 using UnityEditor.Graphing.Util;
-using UnityEditor.Graphs.AnimationBlendTree;
 using UnityEditor.Rendering;
-using UnityEditor.ShaderGraph.Drawing.Controls;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using UnityEditor.ShaderGraph.Internal;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using Toggle = UnityEngine.UIElements.Toggle;
 
 namespace UnityEditor.ShaderGraph.Drawing
 {
