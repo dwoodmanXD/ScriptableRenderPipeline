@@ -64,15 +64,6 @@ namespace UnityEditor.ShaderGraph.Drawing
                     });
                 });
 
-            ps.Add(new PropertyRow(new Label("DOTS instancing")), (row) =>
-            {
-                row.Add(new Toggle(), (toggle) =>
-                {
-                    toggle.value = m_Node.dotsInstancing.isOn;
-                    toggle.OnToggleChanged(ChangeDotsInstancing);
-                });
-            });
-
             Add(ps);
             Add(GetShaderGUIOverridePropertySheet());
         }
@@ -119,14 +110,6 @@ namespace UnityEditor.ShaderGraph.Drawing
             ToggleData td = m_Node.twoSided;
             td.isOn = evt.newValue;
             m_Node.twoSided = td;
-        }
-
-        void ChangeDotsInstancing(ChangeEvent<bool> evt)
-        {
-            m_Node.owner.owner.RegisterCompleteObjectUndo("DotsInstancing Change");
-            ToggleData td = m_Node.dotsInstancing;
-            td.isOn = evt.newValue;
-            m_Node.dotsInstancing = td;
         }
     }
 }
