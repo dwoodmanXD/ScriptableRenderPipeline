@@ -76,7 +76,6 @@ namespace UnityEngine.Rendering
             m_Range = bounds.magnitude;
             length = keys.Length;
             SetDirty();
-            Debug.Log("Texture created");
         }
 
         /// <summary>
@@ -84,7 +83,6 @@ namespace UnityEngine.Rendering
         /// </summary>
         public void Release()
         {
-            Debug.Log("Texture released");
             CoreUtils.Destroy(m_Texture);
             m_Texture = null;
         }

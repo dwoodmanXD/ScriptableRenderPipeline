@@ -220,6 +220,7 @@ namespace UnityEngine.Rendering
         /// </summary>
         public void Release()
         {
+            Debug.Log("Destroying: " + GetHashCode());
             for (int i = 0; i < parameters.Count; i++)
                 parameters[i].Release();
         }

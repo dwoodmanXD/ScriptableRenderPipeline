@@ -66,7 +66,7 @@ namespace UnityEngine.Rendering
         public void Dispose()
         {
             foreach (var component in components)
-                CoreUtils.Destroy(component.Value);
+                Object.DestroyImmediate(component.Value, false);
 
             components.Clear();
         }
