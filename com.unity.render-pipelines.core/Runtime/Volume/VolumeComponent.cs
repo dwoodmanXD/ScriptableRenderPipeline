@@ -210,7 +210,10 @@ namespace UnityEngine.Rendering
             }
         }
 
-        void OnDestroy() => Release();
+        /// <summary>
+        /// Unity calls this method before the object is destroyed. 
+        /// </summary>
+        protected virtual void OnDestroy() => Release();
 
         /// <summary>
         /// Releases all the allocated resources.
