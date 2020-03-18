@@ -86,6 +86,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added a new mode that improves the filtering of ray traced shadows (directional, point and spot) based on the distance to the occluder.
 - Added support of cookie baking and add support on Disc light.
 - Added support for fog attenuation in path tracing.
+- Added a new debug panel for volumes
 - Added XR setting to control camera jitter for temporal effects
 
 ### Fixed
