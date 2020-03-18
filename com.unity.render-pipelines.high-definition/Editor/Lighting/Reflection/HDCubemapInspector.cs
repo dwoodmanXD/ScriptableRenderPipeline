@@ -212,6 +212,7 @@ namespace UnityEditor.Rendering.HighDefinition
 
             UpdateCamera();
 
+            // Force loading the needed preview shader
             var previewShader = EditorGUIUtility.LoadRequired("Previews/PreviewCubemap.shader") as Shader;
             var previewMaterial = new Material(previewShader)
                 {
