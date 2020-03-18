@@ -48,7 +48,7 @@ void ApplyBlendMask(inout float4 dbuffer2, inout float2 dbuffer3, inout uint mat
     if (blendParams.x == 1.0f)	// normal blend source is mask blue channel
         normalBlend = src.z * decalBlend;
     else
-        normalBlend = albedoBlend; // normal blend source is albedo alpha     
+        normalBlend = albedoBlend; // normal blend source is albedo alpha
 
     if (blendParams.y == 1.0f)	// mask blend source is mask blue channel
         maskBlend = src.z * decalBlend;
@@ -110,6 +110,17 @@ void ApplyBlendMask(inout float4 dbuffer2, inout float2 dbuffer3, inout uint mat
     matMask |= mapMask;
 }
 
+float ComputeTextureLODTransparent(float2 uvdx, float2 uvdy, float2 scale)
+{
+    float2 ddx_ = scale*uvdx;
+    float2 ddy_ = scale*uvdy;
+    float  d    = max(dot(ddx_, ddx_), dot(ddy_, ddy_));
+
+    //return max(0.5f*0.25f*log2(d) - 0*1.0f, 0.0f);
+    //return max(0.5f*log2(d) - 1.0f, 0.0f);
+    //return max(0.25f*log2(d) - 1.0f, 0.0f);
+    return max(0.5f*log2(d) - 0.5f, 0.0f);
+}
 
 void EvalDecalMask(PositionInputs posInput, float3 positionRWSDdx, float3 positionRWSDdy, DecalData decalData,
     inout float4 DBuffer0, inout float4 DBuffer1, inout float4 DBuffer2, inout float2 DBuffer3, inout uint mask, inout float alpha)
@@ -147,15 +158,15 @@ void EvalDecalMask(PositionInputs posInput, float3 positionRWSDdx, float3 positi
 
         float2 sampleDiffuseDdx = positionDSDdx.xz * decalData.diffuseScaleBias.xy; // factor in the atlas scale
         float2 sampleDiffuseDdy = positionDSDdy.xz * decalData.diffuseScaleBias.xy;
-        float lodDiffuse = ComputeTextureLOD(sampleDiffuseDdx, sampleDiffuseDdy, _DecalAtlasResolution);
+        float  lodDiffuse       = ComputeTextureLODTransparent(sampleDiffuseDdx, sampleDiffuseDdy, _DecalAtlasResolution);
 
-        float2 sampleNormalDdx = positionDSDdx.xz * decalData.normalScaleBias.xy;
-        float2 sampleNormalDdy = positionDSDdy.xz * decalData.normalScaleBias.xy;
-        float lodNormal = ComputeTextureLOD(sampleNormalDdx, sampleNormalDdy, _DecalAtlasResolution);
+        float2 sampleNormalDdx  = positionDSDdx.xz * decalData.normalScaleBias.xy;
+        float2 sampleNormalDdy  = positionDSDdy.xz * decalData.normalScaleBias.xy;
+        float  lodNormal        = ComputeTextureLODTransparent(sampleNormalDdx, sampleNormalDdy, _DecalAtlasResolution);
 
-        float2 sampleMaskDdx = positionDSDdx.xz * decalData.maskScaleBias.xy;
-        float2 sampleMaskDdy = positionDSDdy.xz * decalData.maskScaleBias.xy;
-        float lodMask = ComputeTextureLOD(sampleMaskDdx, sampleMaskDdy, _DecalAtlasResolution);
+        float2 sampleMaskDdx    = positionDSDdx.xz * decalData.maskScaleBias.xy;
+        float2 sampleMaskDdy    = positionDSDdy.xz * decalData.maskScaleBias.xy;
+        float  lodMask          = ComputeTextureLODTransparent(sampleMaskDdx, sampleMaskDdy, _DecalAtlasResolution);
 
         float albedoBlend = decalData.normalToWorld[0][3];
         float4 src = decalData.baseColor;
@@ -167,7 +178,7 @@ void EvalDecalMask(PositionInputs posInput, float3 positionRWSDdx, float3 positi
         float albedoContribution = decalData.normalToWorld[1][3];
         if (albedoContribution == 0.0f)
         {
-            mask = 0;	// diffuse will not get modified						
+            mask = 0;	// diffuse will not get modified
         }
 
         float normalBlend = albedoBlend;
@@ -258,7 +269,7 @@ DecalSurfaceData GetDecalSurfaceData(PositionInputs posInput, inout float alpha)
 
         if (!fastPath)
         {
-            // If we are not in fast path, v_lightIdx is not scalar, so we need to query the Min value across the wave. 
+            // If we are not in fast path, v_lightIdx is not scalar, so we need to query the Min value across the wave.
             s_decalIdx = WaveActiveMin(v_decalIdx);
             // If WaveActiveMin returns 0xffffffff it means that all lanes are actually dead, so we can safely ignore the loop and move forward.
             // This could happen as an helper lane could reach this point, hence having a valid v_lightIdx, but their values will be ignored by the WaveActiveMin
