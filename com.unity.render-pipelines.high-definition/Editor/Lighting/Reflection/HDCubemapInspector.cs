@@ -23,7 +23,7 @@ namespace UnityEditor.Rendering.HighDefinition
             get { return s_SphereMesh ?? (s_SphereMesh = Resources.GetBuiltinResource(typeof(Mesh), "New-Sphere.fbx") as Mesh); }
         }
 
-        Material m_ReflectiveMaterial;
+        Material m_ReflectiveMaterial = null;
         PreviewRenderUtility m_PreviewUtility;
         float m_CameraPhi = 0.75f;
         float m_CameraTheta = 0.5f;
@@ -35,12 +35,18 @@ namespace UnityEditor.Rendering.HighDefinition
         public float previewExposure = 0f;
         public float mipLevelPreview = 0f;
 
-        void Awake()
+        void InitMaterial()
         {
             m_ReflectiveMaterial = new Material(Shader.Find("Debug/ReflectionProbePreview"))
             {
                 hideFlags = HideFlags.HideAndDontSave
             };
+        }
+
+        void Awake()
+        {
+            if (m_ReflectiveMaterial == null)
+                InitMaterial();
         }
 
         void OnEnable()
@@ -193,6 +199,9 @@ namespace UnityEditor.Rendering.HighDefinition
         }
         public override Texture2D RenderStaticPreview(string assetPath, Object[] subAssets, int width, int height)
         {
+            if (m_ReflectiveMaterial == null)
+                InitMaterial();
+
             m_CameraDistance = 1.25f;
             m_CameraPhi = Mathf.PI * 0.33f;
             m_CameraTheta = Mathf.PI;
