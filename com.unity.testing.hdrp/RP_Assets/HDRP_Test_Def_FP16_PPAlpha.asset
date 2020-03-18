@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf1dab834d4ec34195b920ea7bbf9ec, type: 3}
   m_Name: HDRP_Test_Def_FP16_PPAlpha
   m_EditorClassIdentifier: 
-  m_Version: 13
+  m_Version: 14
   m_ObsoleteFrameSettings:
     overrides: 0
     enableShadow: 0
@@ -190,6 +190,7 @@ MonoBehaviour:
   m_RenderPipelineSettings:
     supportShadowMask: 1
     supportSSR: 1
+    supportSSRTransparent: 0
     supportSSAO: 1
     supportSubsurfaceScattering: 1
     increaseSssSampleCount: 0
@@ -219,14 +220,14 @@ MonoBehaviour:
     supportDitheringCrossFade: 0
     supportTerrainHole: 1
     supportRayTracing: 0
-    supportedRaytracingTier: 2
     lightLoopSettings:
-      cookieSize: 128
-      cookieTexArraySize: 16
+      cookieAtlasSize: 512
+      cookieFormat: 74
       pointCookieSize: 512
       cubeCookieTexArraySize: 16
-      planarReflectionProbeCacheSize: 12
-      planarReflectionTextureSize: 512
+      cookieAtlasLastValidMip: 0
+      cookieTexArraySize: 16
+      planarReflectionAtlasSize: 2048
       reflectionProbeCacheSize: 128
       reflectionCubemapSize: 128
       reflectionCacheCompressed: 0
@@ -241,6 +242,7 @@ MonoBehaviour:
       maxAreaLightsOnScreen: 64
       maxEnvLightsOnScreen: 64
       maxDecalsOnScreen: 512
+      maxPlanarReflectionOnScreen: 16
     hdShadowInitParams:
       maxShadowRequests: 128
       directionalShadowsDepthBits: 32
@@ -295,6 +297,7 @@ MonoBehaviour:
     xrSettings:
       singlePass: 1
       occlusionMesh: 1
+      cameraJitter: 1
     postProcessQualitySettings:
       NearBlurSampleCount: 030000000500000008000000
       NearBlurMaxRadius:
