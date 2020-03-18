@@ -633,6 +633,11 @@ namespace UnityEditor.Rendering.HighDefinition
             subShader.Deindent();
             subShader.AddShaderChunk("}", true);
 
+            if (!masterNode.OverrideEnabled)
+            {
+                subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HighDefinition.HDPBRLitGUI""");
+            }
+
             return subShader.GetShaderString(0);
         }
 

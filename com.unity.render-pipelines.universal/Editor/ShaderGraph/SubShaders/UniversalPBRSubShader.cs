@@ -500,6 +500,12 @@ namespace UnityEditor.Rendering.Universal
             subShader.Deindent();
             subShader.AddShaderChunk("}", true);
 
+            ICanChangeShaderGUI canChangeShaderGui = masterNode as ICanChangeShaderGUI;
+            if (!canChangeShaderGui.OverrideEnabled)
+            {
+                subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.ShaderGraph.PBRMasterGUI""");
+            }
+
             return subShader.GetShaderString(0);
         }
 

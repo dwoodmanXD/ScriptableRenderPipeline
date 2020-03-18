@@ -84,7 +84,6 @@ namespace UnityEditor.ShaderGraph.Drawing
         private void ProcessOverrideEnabledToggle(bool newValue)
         {
             string storedValue = m_CanChangeShaderGUI.ShaderGUIOverride;
-            string preferredGUI = GraphUtil.CurrentPipelinePreferredShaderGUI(m_MasterNode as IMasterNode);
 
             m_CanChangeShaderGUI.OverrideEnabled = newValue;
 
@@ -93,25 +92,11 @@ namespace UnityEditor.ShaderGraph.Drawing
             {
                 m_PropertySheet.Add(m_OverrideFieldRow);
 
-                // Display the pipeline's default upon activation, if it has one. Otherwise set up field to display user setting.
-                if (string.IsNullOrEmpty(storedValue) && !string.IsNullOrEmpty(preferredGUI))
-                {
-                    ProcessShaderGUIField(preferredGUI, false);
-                }
-                else
-                {
-                    ProcessShaderGUIField(storedValue, false);
-                }
+                ProcessShaderGUIField(storedValue, false);
             }
             else if (m_PropertySheet.Contains(m_OverrideFieldRow))
             {
                 m_PropertySheet.Remove(m_OverrideFieldRow);
-
-                // Upon disable, set the value back to null (for pipeline switching reasons, among other reasons)
-                if (storedValue == preferredGUI)
-                {
-                    m_CanChangeShaderGUI.ShaderGUIOverride = null;
-                }
             }
 
             AddWarningIfNeeded();
@@ -128,15 +113,7 @@ namespace UnityEditor.ShaderGraph.Drawing
                     m_MasterNode.owner.owner.RegisterCompleteObjectUndo("ShaderGUI Change");
                 }
 
-                // Reset to default when the field is wiped out
-                if (HasPreferredGUI() && string.IsNullOrEmpty(sanitizedInput))
-                {
-                    m_CanChangeShaderGUI.ShaderGUIOverride = GraphUtil.CurrentPipelinePreferredShaderGUI(m_MasterNode as IMasterNode);
-                }
-                else
-                {
-                    m_CanChangeShaderGUI.ShaderGUIOverride = sanitizedInput;
-                }
+                m_CanChangeShaderGUI.ShaderGUIOverride = sanitizedInput;
             }
 
             m_ShaderGUITextField.value = m_CanChangeShaderGUI.ShaderGUIOverride;
@@ -164,10 +141,6 @@ namespace UnityEditor.ShaderGraph.Drawing
         {
             if (string.IsNullOrEmpty(customEditorName))
             {
-                if (HasPreferredGUI())
-                {
-                    return false;
-                }
                 return true; // No default, so this is valid.
             }
 
@@ -181,12 +154,6 @@ namespace UnityEditor.ShaderGraph.Drawing
             }
             return false;
         }
-
-        private bool HasPreferredGUI()
-        {
-            return !string.IsNullOrEmpty(GraphUtil.CurrentPipelinePreferredShaderGUI(m_MasterNode as IMasterNode));
-        }
-
     }
 
 }

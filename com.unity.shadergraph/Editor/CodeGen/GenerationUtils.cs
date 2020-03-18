@@ -694,7 +694,7 @@ namespace UnityEditor.ShaderGraph
         public static string FinalCustomEditorString(ICanChangeShaderGUI canChangeShaderGUI)
         {
             if (!canChangeShaderGUI.OverrideEnabled)
-                return GraphUtil.CurrentPipelinePreferredShaderGUI(canChangeShaderGUI as IMasterNode);
+                return null;
 
             string finalOverrideName = canChangeShaderGUI.ShaderGUIOverride;
 

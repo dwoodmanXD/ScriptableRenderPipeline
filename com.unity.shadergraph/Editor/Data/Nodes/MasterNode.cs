@@ -141,7 +141,8 @@ namespace UnityEditor.ShaderGraph
                 }
 
                 // Either grab the pipeline default for the active node or the user override
-                if (this is ICanChangeShaderGUI canChangeShaderGui)
+                ICanChangeShaderGUI canChangeShaderGui = this as ICanChangeShaderGUI;
+                if (canChangeShaderGui != null && canChangeShaderGui.OverrideEnabled)
                 {
                     string customEditor = GenerationUtils.FinalCustomEditorString(canChangeShaderGui);
 

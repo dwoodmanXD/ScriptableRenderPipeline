@@ -350,20 +350,5 @@ namespace UnityEditor.ShaderGraph
             }
         }
 
-        public static string CurrentPipelinePreferredShaderGUI(IMasterNode masterNode)
-        {
-//            foreach (var implementation in (masterNode as AbstractMaterialNode).owner.validImplementations)
-//            {
-//                if (implementation.IsPipelineCompatible(GraphicsSettings.currentRenderPipeline))
-//                {
-//                    var context = implementation.GetSubShaderDescriptorFromMasterNode(masterNode);
-//                    if (context != null)
-//                        return context.Value.customEditorOverride;
-//                }
-//            }
-
-            return null;
-        }
-
     }
 }
