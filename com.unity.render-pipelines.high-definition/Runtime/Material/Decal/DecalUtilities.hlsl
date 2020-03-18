@@ -110,15 +110,12 @@ void ApplyBlendMask(inout float4 dbuffer2, inout float2 dbuffer3, inout uint mat
     matMask |= mapMask;
 }
 
-float ComputeTextureLODTransparent(float2 uvdx, float2 uvdy, float2 scale)
+float ComputeTextureLODDecals(float2 uvdx, float2 uvdy, float2 scale)
 {
     float2 ddx_ = scale*uvdx;
     float2 ddy_ = scale*uvdy;
     float  d    = max(dot(ddx_, ddx_), dot(ddy_, ddy_));
 
-    //return max(0.5f*0.25f*log2(d) - 0*1.0f, 0.0f);
-    //return max(0.5f*log2(d) - 1.0f, 0.0f);
-    //return max(0.25f*log2(d) - 1.0f, 0.0f);
     return max(0.5f*log2(d) - 0.5f, 0.0f);
 }
 
@@ -158,15 +155,15 @@ void EvalDecalMask(PositionInputs posInput, float3 positionRWSDdx, float3 positi
 
         float2 sampleDiffuseDdx = positionDSDdx.xz * decalData.diffuseScaleBias.xy; // factor in the atlas scale
         float2 sampleDiffuseDdy = positionDSDdy.xz * decalData.diffuseScaleBias.xy;
-        float  lodDiffuse       = ComputeTextureLODTransparent(sampleDiffuseDdx, sampleDiffuseDdy, _DecalAtlasResolution);
+        float  lodDiffuse       = ComputeTextureLODDecals(sampleDiffuseDdx, sampleDiffuseDdy, _DecalAtlasResolution);
 
         float2 sampleNormalDdx  = positionDSDdx.xz * decalData.normalScaleBias.xy;
         float2 sampleNormalDdy  = positionDSDdy.xz * decalData.normalScaleBias.xy;
-        float  lodNormal        = ComputeTextureLODTransparent(sampleNormalDdx, sampleNormalDdy, _DecalAtlasResolution);
+        float  lodNormal        = ComputeTextureLODDecals(sampleNormalDdx, sampleNormalDdy, _DecalAtlasResolution);
 
         float2 sampleMaskDdx    = positionDSDdx.xz * decalData.maskScaleBias.xy;
         float2 sampleMaskDdy    = positionDSDdy.xz * decalData.maskScaleBias.xy;
-        float  lodMask          = ComputeTextureLODTransparent(sampleMaskDdx, sampleMaskDdy, _DecalAtlasResolution);
+        float  lodMask          = ComputeTextureLODDecals(sampleMaskDdx, sampleMaskDdy, _DecalAtlasResolution);
 
         float albedoBlend = decalData.normalToWorld[0][3];
         float4 src = decalData.baseColor;
