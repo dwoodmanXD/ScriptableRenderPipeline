@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix LookDev used Cubemap when asset is deleted
 - Fixed the definition of `rcp()` for GLES2.
 - Fixed copy/pasting of Volume Components when loading a new scene
-- Fixed GC pressure in `VolumeParameter<T>.GetHashCode()`
+- Fixed GC pressure caused by `VolumeParameter<T>.GetHashCode()`
 
 ### Changed
 - Restored usage of ENABLE_VR to fix compilation errors on some platforms.
@@ -128,4 +128,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Moved root files into folders for easier maintenance
-
