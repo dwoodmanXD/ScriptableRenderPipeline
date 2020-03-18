@@ -114,17 +114,18 @@ namespace UnityEngine.Rendering
         /// <returns>A 128x1 texture.</returns>
         public Texture2D GetTexture()
         {
+            if (m_Texture == null)
+            {
+                m_Texture = new Texture2D(k_Precision, 1, GetTextureFormat(), false, true);
+                m_Texture.name = "CurveTexture";
+                m_Texture.hideFlags = HideFlags.HideAndDontSave;
+                m_Texture.filterMode = FilterMode.Bilinear;
+                m_Texture.wrapMode = TextureWrapMode.Clamp;
+                m_IsTextureDirty = true;
+            }
+
             if (m_IsTextureDirty)
             {
-                if (m_Texture == null)
-                {
-                    m_Texture = new Texture2D(k_Precision, 1, GetTextureFormat(), false, true);
-                    m_Texture.name = "CurveTexture";
-                    m_Texture.hideFlags = HideFlags.HideAndDontSave;
-                    m_Texture.filterMode = FilterMode.Bilinear;
-                    m_Texture.wrapMode = TextureWrapMode.Clamp;
-                }
-
                 var pixels = new Color[k_Precision];
 
                 for (int i = 0; i < pixels.Length; i++)

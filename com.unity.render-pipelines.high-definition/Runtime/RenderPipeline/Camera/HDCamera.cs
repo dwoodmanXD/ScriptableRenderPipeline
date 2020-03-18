@@ -333,9 +333,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
             frustumPlaneEquations = new Vector4[6];
 
-            Debug.Log("Create stack for cam: " + cam?.GetHashCode());
             volumeStack = VolumeManager.instance.CreateStack();
-            Debug.Log("Created stack: " + volumeStack.GetHashCode());
 
             Reset();
         }
@@ -1220,8 +1218,6 @@ namespace UnityEngine.Rendering.HighDefinition
 
         void Dispose()
         {
-            Debug.Log("Destroy stack for cam: " + camera?.GetHashCode());
-            Debug.Log("Destroyed stack: " + volumeStack.GetHashCode());
             VolumeManager.instance.DestroyStack(volumeStack);
 
             if (m_HistoryRTSystem != null)

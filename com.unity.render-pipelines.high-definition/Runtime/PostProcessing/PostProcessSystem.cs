@@ -318,9 +318,6 @@ namespace UnityEngine.Rendering.HighDefinition
             m_Curves                    = stack.GetComponent<ColorCurves>();
             m_FilmGrain                 = stack.GetComponent<FilmGrain>();
 
-            Debug.Log("curves from cam " + camera.camera.GetHashCode() + ", stack: " + stack.GetHashCode());
-            Debug.Log("m_Curves: " + m_Curves.GetHashCode());
-
             // Prefetch frame settings - these aren't free to pull so we want to do it only once
             // per frame
             var frameSettings = camera.frameSettings;
@@ -2152,8 +2149,6 @@ namespace UnityEngine.Rendering.HighDefinition
             cmd.SetComputeTextureParam(builderCS, builderKernel, HDShaderIDs._CurveHueVsSat, m_Curves.hueVsSat.value.GetTexture());
             cmd.SetComputeTextureParam(builderCS, builderKernel, HDShaderIDs._CurveLumVsSat, m_Curves.lumVsSat.value.GetTexture());
             cmd.SetComputeTextureParam(builderCS, builderKernel, HDShaderIDs._CurveSatVsSat, m_Curves.satVsSat.value.GetTexture());
-
-            Debug.Log("Curves: " + m_Curves.hueVsHue.value.GetTexture());
 
             // Artist-driven tonemap curve
             if (tonemappingMode == TonemappingMode.Custom)
